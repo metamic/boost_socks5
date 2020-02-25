@@ -44,8 +44,10 @@ class Session : public std::enable_shared_from_this<Session>
 public:
 	Session(tcp::socket in_socket, unsigned session_id, size_t buffer_size, short verbose)
 		:	in_socket_(std::move(in_socket)), 
-			out_socket_(in_socket.get_io_service()), 
-			resolver(in_socket.get_io_service()),
+			//out_socket_(in_socket.get_io_service()), 
+			//resolver(in_socket.get_io_service()),
+			out_socket_(in_socket.get_executor()), // fix
+			resolver(in_socket.get_executor()),    // fix
 			in_buf_(buffer_size), 
 			out_buf_(buffer_size), 
 			session_id_(session_id),
